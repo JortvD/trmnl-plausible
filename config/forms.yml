@@ -1,0 +1,66 @@
+- keyname: api_key
+  field_type: string
+  name: API key
+- keyname: url
+  field_type: url
+  name: API url
+  default: https://plausible.io
+- keyname: site_id
+  field_type: string
+  name: Site ID
+  default: example.com
+- keyname: metric
+  field_type: select
+  name: Metric
+  default: visitors
+  options:
+  - visitors
+  - visits
+  - pageviews
+  - bounce_rate
+  - visit_duration
+  - events
+  multiple: true
+- keyname: date_range
+  field_type: select
+  name: Date range
+  default: 7d
+  options:
+  - day
+  - 7d
+  - 28d
+  - 30d
+  - 91d
+  - month
+  - 6mo
+  - 12mo
+  - year
+  - all
+- keyname: dimension
+  field_type: select
+  name: Group by
+  default: time:day
+  options:
+  - Hour (spline): 'time:hour'
+  - Day (spline): 'time:day'
+  - Week (spline): 'time:week'
+  - Month (spline): 'time:month'
+  - Entry page (bar): 'visit:entry_page'
+  - Exit page (bar): 'visit:exit_page'
+  - Source (bar): 'visit:source'
+  - Device (bar): 'visit:device'
+  - Browser (bar): 'visit:browser'
+  - OS (bar): 'visit:os'
+  - Country (bar): 'visit:country_name'
+  - Region (bar): 'visit:region_name'
+  - City (bar): 'visit:city_name'
+- keyname: filter
+  field_type: string
+  name: Filter
+  default: '[]'
+  description: Optional filter to apply (e.g. '["is", "visit:country_name", ["Germany", "Poland"]]')
+- keyname: chart_for
+  field_type: number
+  name: Chart for (index of metric)
+  default: 0
+  description: Index of the metric to show in the chart (starting from 0)

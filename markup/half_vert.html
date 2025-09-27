@@ -1,0 +1,147 @@
+<div class="layout layout--col gap--space-between">
+  <div class="grid">
+    <div class="col">
+      <div id="chart-8513af80da0f" class="h-10" data-highcharts-chart="0" style="overflow: hidden;"></div>
+       
+      <div class="grid pt--2">
+        {% assign metrics = trmnl.plugin_settings.custom_fields_values.metric %}
+        {% assign chart_for = trmnl.plugin_settings.custom_fields_values.chart_for | plus: 0 %}
+
+        {% assign main_metric = metrics[chart_for] %}
+        <div class="item row--span-1">
+            <div class="meta"></div>
+            <div class="content">
+                <span class="value value--large value--tnums" data-value-type="number" id="sum-value-{{ main_metric }}"></span>
+                <span class="label">{{ main_metric }}</span>
+               {% for metric in metrics %}
+                    {% if metric != metrics[chart_for] %}
+                        <span class="value value--xsmall value--tnums" data-value-type="number" id="sum-value-{{ metric }}"></span>
+                        <span class="label">{{ metric }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="item row--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--xsmall value--tnums" data-value-type="date">
+              <div class="w--14 h--1.5 mb--2 bg--black" style="border-radius: 20px;"></div>
+                <span id="min-date"></span> - <span id="max-date"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://usetrmnl.com/js/highcharts/12.3.0/highcharts.js"></script>
+  <script src="https://usetrmnl.com/js/highcharts/12.3.0/highcharts-more.js"></script>
+  <script src="https://usetrmnl.com/js/highcharts/12.3.0/pattern-fill.js"></script>
+
+  
+  <script type="text/javascript">
+    function reformatResults(results) {
+        return results.map(item => [
+            item.dimensions[0],
+            item.metrics[0]
+        ]);
+    }
+
+    
+
+    let data = {{ results | json }}
+
+    let metrics = {{ trmnl.plugin_settings.custom_fields_values.metric | json }};
+
+    metrics.forEach((metric, i) => {
+        let element = document.getElementById('sum-value-' + metric);
+        if (element) {
+            let sum = data.reduce((acc, item) => acc + item.metrics[i], 0);
+            element.innerText = sum.toLocaleString('en-US');
+        }
+    });
+
+    let minDate = Math.min(...data.map(item => new Date(item.dimensions[0]).getTime()));
+    let maxDate = Math.max(...data.map(item => new Date(item.dimensions[0]).getTime()));
+
+    document.getElementById('min-date').innerText = new Date(minDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    document.getElementById('max-date').innerText = new Date(maxDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    let chart_data = reformatResults(data);
+    
+    Highcharts.chart('chart-8513af80da0f', {
+      chart: { 
+        type: 'spline',
+        animation: false,
+        spacing: [10, 10, 5, 10],
+        height: 200
+      },
+      title: {
+        text: null
+      },
+      plotOptions: {
+        series: {
+          animation: false,
+          enableMouseTracking: false,
+          states: {
+            hover: { enabled: false }
+          },
+          marker: {
+            enabled: false
+          }
+        }
+      },
+      series: [{
+        data: chart_data,
+        lineWidth: 4,
+        color: '#000000',
+        name: "Data",
+        zIndex: 2
+      }],
+      tooltip: { enabled: false },
+      legend: { enabled: false },
+      yAxis: { 
+        labels: { 
+          style: { fontSize: '16px', color: '#000000' } 
+        }, 
+        gridLineDashStyle: 'shortdot', 
+        gridLineWidth: 1, 
+        gridLineColor: '#000000', 
+        tickAmount: 5,
+        title: {
+          text: null
+        }
+      },
+      xAxis: { 
+        type: 'datetime', 
+        labels: { 
+          style: { fontSize: '16px', color: '#000000' },
+          padding: 5,
+          y: 25
+        }, 
+        lineWidth: 0, 
+        gridLineDashStyle: 'dot', 
+        tickWidth: 1, 
+        tickLength: 0, 
+        gridLineWidth: 1, 
+        gridLineColor: '#000000', 
+        tickPixelInterval: 120, 
+        offset: 0,
+        margin: 0,
+        title: {
+          text: null
+        }
+      },
+      credits: {
+        enabled: false
+      }
+    });
+  </script>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">{{ trmnl.plugin_settings.custom_fields_values.site_id }}</span>
+</div>
