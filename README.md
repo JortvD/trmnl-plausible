@@ -7,7 +7,7 @@ Plausible Analytics is a privacy-friendly web analytics platform, available thro
 ![](./screenshots/half_h_dspline.png)
 ![](./screenshots/half_v_dspline.png)
 
-### Or show bar spline charts
+### Or use bar charts instead
 ![](./screenshots/full_dbar.png)
 ![](./screenshots/half_h_dbar.png)
 ![](./screenshots/half_v_dbar.png)
