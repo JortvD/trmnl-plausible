@@ -1,3 +1,6 @@
+<script>
+let code = 
 [
     {"site_id":"{{ site_id }}","metrics":["{{ metric | join: '","' }}"],"date_range":"{{ date_range }}","dimensions":["{{ dimension }}"]{% if filter != "[]" %},filters:{{ filter }}{% endif %}}
 ]
+</script>

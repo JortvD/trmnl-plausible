@@ -1,3 +1,9 @@
+- keyname: doesnt_matter
+  name: Generate an overview of your Plausible web analytics. 
+  field_type: author_bio
+  description: Plausible Analytics is a privacy-friendly web analytics platform, available through <a href="https://plausible.io">Plausible.io</a> or via self-hosting the Community Edition. This plugin was developed by Jort van Driel. Feel free to reach out with any questions or issues. (I'm not associated with Plausible Analytics. The logo is copyrighted by them and licensed as CC-BY-SA-4.0.)
+  github_url: https://github.com/jortvd/trmnl-plausible
+  email_address: jortvd2002@gmail.com
 - keyname: api_key
   field_type: string
   name: Plausible API key
@@ -5,7 +11,7 @@
 - keyname: url
   field_type: url
   name: Plausible URL
-  description: The web address of your Plausible account. Using plausible.io? Leave the default. Self-hosting? Enter your own URL (e.g. https://analytics.example.com).
+  description: The web address of your Plausible account. Using Plausible from plausible.io? Leave the default. Self-hosting? Enter your own URL (e.g. https://analytics.example.com).
   default: https://plausible.io
 - keyname: site_id
   field_type: string
@@ -74,4 +80,17 @@
   field_type: number
   name: Secondary chart series (optional)
   description: Optionally show a second (lighter) line/bar. Enter its position number. 0 for the first metric, 1 for the second, etc. Leave blank if you don't need a secondary series.
+  optional: true
+- keyname: chart_only
+  name: Chart only
+  field_type: select
+  default: "no"
+  options:
+  - "Yes"
+  - "No"
+  description: Only show the charts and relevant labels.
+- keyname: site_display
+  name: Custom site display name (optional)
+  field_type: string
+  description: Text to show instead of the Site ID in the bottom-right label. Leave blank to keep showing the Site ID.
   optional: true

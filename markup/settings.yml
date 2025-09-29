@@ -1,0 +1,109 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: "{\r\n  \"results\": [\r\n    {\r\n      \"metrics\": [\r\n        93\r\n      ],\r\n      \"dimensions\": []\r\n    }\r\n  ],\r\n  \"meta\": {},\r\n  \"query\": {\r\n    \"site_id\": \"powerflowerstories.nl\",\r\n    \"metrics\": [\r\n      \"visitors\"\r\n    ],\r\n    \"date_range\": [\r\n      \"2025-09-20T00:00:00+02:00\",\r\n      \"2025-09-26T23:59:59+02:00\"\r\n    ],\r\n    \"filters\": [],\r\n    \"dimensions\": [],\r\n    \"order_by\": [\r\n      [\r\n        \"visitors\",\r\n        \"desc\"\r\n      ]\r\n    ],\r\n    \"include\": {},\r\n    \"pagination\": {\r\n      \"offset\": 0,\r\n      \"limit\": 10000\r\n    }\r\n  }\r\n}"
+polling_verb: post
+polling_url: "{{ url }}/api/v2/query"
+polling_headers: Authorization=Bearer {{ api_key }}&Content-Type=application/json
+polling_body: '{"site_id":"{{ site_id }}","metrics":["{{ metric | join: ''","'' }}"],"date_range":"{{ date_range }}","dimensions":["{{ dimension }}"]{% if filter != "[]" %},filters:{{ filter }}{% endif %}}'
+id: 158263
+custom_fields:
+- keyname: doesnt_matter
+  name: Generate an overview of your Plausible web analytics.
+  field_type: author_bio
+  description: Plausible Analytics is a privacy-friendly web analytics platform, available through <a href="https://plausible.io">Plausible.io</a> or via self-hosting the Community Edition. This plugin was developed by Jort van Driel. Feel free to reach out with any questions or issues. (I'm not associated with Plausible Analytics. The logo is copyrighted by them and licensed as CC-BY-SA-4.0.)
+  github_url: https://github.com/jortvd
+  email_address: jortvd2002@gmail.com
+- keyname: api_key
+  field_type: string
+  name: Plausible API key
+  description: Your secret key that lets this app read your Plausible stats (like a password). Create one <a href="https://plausible.io/settings/api-keys">here</a> or in Plausible under “Account Settings” → “API Keys” if you self-host.
+- keyname: url
+  field_type: url
+  name: Plausible URL
+  description: The web address of your Plausible account. Using Plausible from plausible.io? Leave the default. Self-hosting? Enter your own URL (e.g. https://analytics.example.com).
+  default: https://plausible.io
+- keyname: site_id
+  field_type: string
+  name: Website (Site ID)
+  description: The site you track in Plausible—usually your domain name (e.g. example.com).
+  placeholder: example.com
+- keyname: metric
+  field_type: select
+  name: Metrics to show
+  description: Choose one or more metrics to display. Not sure what they mean? See Plausible's metric definitions <a href="https://plausible.io/docs/metrics-definitions">here</a>.
+  default: Unique visitors
+  options:
+  - Unique visitors: visitors
+  - Total visits: visits
+  - Total pageviews: pageviews
+  - Bounce rate: bounce_rate
+  - Average visit duration: visit_duration
+  - Total events: events
+  multiple: true
+  help_text: Hold <kbd>⌘</kbd> (Mac) or <kbd>Ctrl</kbd> (Windows/Linux) while clicking to select or deselect multiple options.
+- keyname: date_range
+  field_type: select
+  name: Time period
+  description: Pick the period to summarize your stats. The numbers shown are calculated over this period.
+  default: 7d
+  options:
+  - Today: day
+  - Last 7 days: 7d
+  - Last 30 days: 30d
+  - Last 91 days: 91d
+  - Month to date: month
+  - Last 6 months: 6mo
+  - Last 12 months: 12mo
+  - Year to date: year
+  - All time: all
+- keyname: dimension
+  field_type: select
+  name: Break down by
+  description: Show your metric over time (line chart) or broken down by something else (bar chart), like Device or Country.
+  default: time:day
+  options:
+  - Hour (line chart): time:hour
+  - Day (line chart): time:day
+  - Week (line chart): time:week
+  - Month (line chart): time:month
+  - Entry page (bar chart): visit:entry_page
+  - Exit page (bar chart): visit:exit_page
+  - Source (bar chart): visit:source
+  - Device (bar chart): visit:device
+  - Browser (bar chart): visit:browser
+  - OS (bar chart): visit:os
+  - Country (bar chart): visit:country_name
+  - Region (bar chart): visit:region_name
+  - City (bar chart): visit:city_name
+- keyname: filter
+  field_type: string
+  name: Filter (optional)
+  default: "[]"
+  description: Limit the data that's included. Leave empty to include everything. For example, use '["is", "visit:country_name", ["Germany", "Poland"]]'. Learn more about filters <a href="https://plausible.io/docs/stats-api#filters">here</a>.
+- keyname: chart_for
+  field_type: number
+  name: Main chart series
+  description: If you selected multiple metrics above, enter the position of the one to highlight as the main (darker) line/bar, 0 for the first metric, 1 for the second, etc. If you picked just one metric, leave as 0.
+  default: 0
+- keyname: chart_for2
+  field_type: number
+  name: Secondary chart series (optional)
+  description: Optionally show a second (lighter) line/bar. Enter its position number. 0 for the first metric, 1 for the second, etc. Leave blank if you don't need a secondary series.
+  optional: true
+- keyname: chart_only
+  name: Chart only
+  field_type: select
+  default: 'no'
+  options:
+  - 'Yes'
+  - 'No'
+  description: Only show the charts and relevant labels.
+- keyname: site_display
+  name: Custom site display name (optional)
+  field_type: string
+  description: Text to show instead of the Site ID in the bottom-right label. Leave blank to keep showing the Site ID.
+  optional: true
+name: Plausible
+refresh_interval: 60
