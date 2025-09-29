@@ -2,7 +2,6 @@
 strategy: polling
 no_screen_padding: 'no'
 dark_mode: 'no'
-static_data: "{\r\n  \"results\": [\r\n    {\r\n      \"metrics\": [\r\n        93\r\n      ],\r\n      \"dimensions\": []\r\n    }\r\n  ],\r\n  \"meta\": {},\r\n  \"query\": {\r\n    \"site_id\": \"powerflowerstories.nl\",\r\n    \"metrics\": [\r\n      \"visitors\"\r\n    ],\r\n    \"date_range\": [\r\n      \"2025-09-20T00:00:00+02:00\",\r\n      \"2025-09-26T23:59:59+02:00\"\r\n    ],\r\n    \"filters\": [],\r\n    \"dimensions\": [],\r\n    \"order_by\": [\r\n      [\r\n        \"visitors\",\r\n        \"desc\"\r\n      ]\r\n    ],\r\n    \"include\": {},\r\n    \"pagination\": {\r\n      \"offset\": 0,\r\n      \"limit\": 10000\r\n    }\r\n  }\r\n}"
 polling_verb: post
 polling_url: "{{ url }}/api/v2/query"
 polling_headers: Authorization=Bearer {{ api_key }}&Content-Type=application/json
